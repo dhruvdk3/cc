@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='verify_otp.css') }}">
+</head>
+<body>
+    <h2>Verify OTP</h2>
+    <form method="POST" action="/verify_otp">
+        <input type="hidden" name="username" value="{{ form_data['username'] }}">
+        <input type="hidden" name="password" value="{{ form_data['password'] }}">
+        <input type="hidden" name="first_name" value="{{ form_data['first_name'] }}">
+        <input type="hidden" name="last_name" value="{{ form_data['last_name'] }}">
+        <input type="hidden" name="dob" value="{{ form_data['dob'] }}">
+        <input type="hidden" name="email" value="{{ form_data['email'] }}">
+        <input type="hidden" name="original_otp" value="{{ otp }}">
+        
+        <label for="otp">Enter OTP:</label><br>
+        <input type="text" id="otp" name="otp" required><br>
+        
+        <input type="submit" value="Verify OTP">
+    </form>
+</body>
+</html>
