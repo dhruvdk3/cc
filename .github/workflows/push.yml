@@ -3,23 +3,24 @@ name: Publish Docker Image
 on:
   push:
     branches:
-      - main  # Adjust this to your main branch name or other branch you want to trigger on
+      - main  # Adjust branch name as needed
 
 jobs:
-  build-and-push:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Log in to GitHub Packages
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u dhruv33 --password-stdin
+      - name: Build Docker Image
+        run: docker build -t dhruv33/app:latest .
 
-    - name: Build and push Docker image
-      run: |
-        docker buildx build --platform linux/amd64,linux/arm64 -t docker.pkg.github.com/dhruvdk3/cc/app:latest .
-        docker push docker.pkg.github.com/dhruvdk3/cc/app:latest
+      - name: Push Docker Image
+        run: docker push dhruv33/app:latest
